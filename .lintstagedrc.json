@@ -1,0 +1,7 @@
+{
+  "linters": {
+    "*.{js,jsx}": ["eslint --fix"],
+    "*.{js,jsx,json,css,graphql,yml,yaml,md}": ["prettier --write", "git add"]
+  },
+  "ignore": ["public/*"]
+}
