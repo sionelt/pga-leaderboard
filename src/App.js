@@ -1,10 +1,20 @@
-import React, {Component} from 'react'
-import './App.css'
+import React, {Fragment} from 'react'
+import {withStyles} from '@material-ui/core/styles'
+import TopAppBar from './components/AppBar'
+import AppContent from './components/AppContent'
 
-class App extends Component {
-  render() {
-    return <div className="App">LeaderBoard</div>
+const styles = () => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh'
   }
-}
+})
+const App = props => (
+  <div className={props.classes.root}>
+    <TopAppBar />
+    <AppContent />
+  </div>
+)
 
-export default App
+export default withStyles(styles)(App)
