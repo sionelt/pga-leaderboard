@@ -20,8 +20,7 @@ const styles = theme => ({
   },
   tableWrapper: {
     overflow: 'auto',
-    // height: '100%',
-    // minHeight: '100%'
+    maxHeight: '100%',
   },
 })
 
