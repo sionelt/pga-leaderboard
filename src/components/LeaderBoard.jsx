@@ -7,12 +7,15 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import AddPersonIcon from '@material-ui/icons/PersonAdd'
 
 const styles = theme => ({
   row: {
     cursor: 'pointer',
     '&:hover': {
-      background: theme.palette.grey[50]
+      background: theme.palette.grey[50],
+      boxShadow: ''
     }
   }
 })
@@ -26,7 +29,17 @@ class LeaderBoard extends Component {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell numeric>Score</TableCell>
-            <TableCell />
+            <TableCell numeric>
+              <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                className={classes.fab}
+              >
+                New
+                <AddPersonIcon size="small" style={{marginLeft: '5px'}} />
+              </Button>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

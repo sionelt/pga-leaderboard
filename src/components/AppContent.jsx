@@ -13,10 +13,10 @@ const styles = theme => ({
     boxSizing: 'border-box',
     padding: theme.spacing.unit * 2
   },
-  wrapper: {
-    overflow: 'auto',
-    height: '100%',
-    minHeight: '100%'
+  tableWrapper: {
+    overflow: 'auto'
+    // height: '100%',
+    // minHeight: '100%'
   }
 })
 
@@ -109,7 +109,7 @@ class AppContent extends Component {
         className={classes.root}
       >
         <Grid item xs={12} sm={10} md={8} lg={6} className={classes.container}>
-          <Paper className={classes.wrapper}>
+          <Paper className={classes.tableWrapper}>
             <LeaderBoard players={players} />
           </Paper>
         </Grid>
