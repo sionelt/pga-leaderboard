@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import AddPersonIcon from '@material-ui/icons/PersonAdd'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -25,7 +26,15 @@ const styles = theme => ({
 })
 
 const LeaderBoard = props => {
-  const {players, classes, addNewPlayer, updatePlayer, removePlayer} = props
+  const {
+    players,
+    classes,
+    ajaxState,
+    isDialogOpen,
+    addNewPlayer,
+    updatePlayer,
+    removePlayer,
+  } = props
   return (
     <Paper className={classes.tableWrapper}>
       <Table padding="checkbox">
@@ -73,16 +82,20 @@ const LeaderBoard = props => {
             : null}
         </TableBody>
       </Table>
+      {ajaxState === 'FETCHING' && !isDialogOpen ? <LinearProgress /> : null}
     </Paper>
   )
 }
 
 LeaderBoard.propTypes = {
-  classes: PropTypes.object.isRequired,
+  ajaxState: PropTypes.oneOf(['INIT', 'FETCHING', 'SUCCESS', 'FAIL'])
+    .isRequired,
   players: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isDialogOpen: PropTypes.bool.isRequired,
   addNewPlayer: PropTypes.func.isRequired,
   updatePlayer: PropTypes.func.isRequired,
   removePlayer: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(LeaderBoard)
