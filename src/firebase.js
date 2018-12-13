@@ -1,4 +1,5 @@
-import firebase from 'firebase'
+import app from 'firebase'
+
 // Initialize Firebase
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -8,6 +9,7 @@ const config = {
   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
 }
-const fire = firebase.initializeApp(config)
 
-export default fire
+const firebase = app.initializeApp(config)
+
+export default firebase
