@@ -48,6 +48,7 @@ class AppContent extends Component {
 
   state = {
     players: [],
+    ajaxState: 'INIT',
     isDialogOpen: false,
     dialogFieldErrors: {},
     dialogTitle: 'Add New Player',
@@ -55,9 +56,15 @@ class AppContent extends Component {
   }
 
   componentDidMount() {
-    this.getPlayers().then(players => {
-      this.setState({players})
-    })
+    this.setState({ajaxState: 'FETCHING'})
+    this.getPlayers()
+      .then(players => {
+        this.setState({players, ajaxState: 'SUCCESS'})
+      })
+      .catch(err => {
+        console.error(err)
+        this.setState({ajaxState: 'FAIL'})
+      })
   }
 
   getPlayers = () => {
@@ -117,41 +124,59 @@ class AppContent extends Component {
   onDialogClose = dialogAction => async () => {
     const {id, ...requestPlayer} = this.state.selectedPlayer
     const {isValid, errors} = validateDialogFields(requestPlayer)
-
-    if (dialogAction === 'SAVE' && !isValid) {
-      this.setState({dialogFieldErrors: errors})
+    const defaultStates = {
+      isDialogOpen: false,
+      dialogFieldErrors: {},
+      selectedPlayer: {...this.playerDefaults},
     }
+
+    if (dialogAction === 'CLOSE') {
+      return this.setState({...defaultStates})
+    } else if (dialogAction === 'SAVE' && !isValid) {
+      return this.setState({dialogFieldErrors: errors})
+    }
+
+    this.setState({ajaxState: 'FETCHING'})
 
     if (id) {
       await firebase
         .database()
         .ref('Players/' + id)
         .update(requestPlayer)
-        .catch(err => console.error(err))
+        .catch(err => {
+          this.setState({ajaxState: 'FAIL'})
+          console.error(err)
+        })
     } else {
       await firebase
         .database()
         .ref('Players/')
         .push(requestPlayer)
-        .catch(err => console.error(err))
+        .catch(err => {
+          this.setState({ajaxState: 'FAIL'})
+          console.error(err)
+        })
     }
 
     this.getPlayers()
       .then(players => {
         this.setState({
           players,
-          isDialogOpen: false,
-          dialogFieldErrors: {},
-          selectedPlayer: {...this.playerDefaults},
+          ...defaultStates,
+          ajaxState: 'SUCCESS',
         })
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        this.setState({ajaxState: 'FAIL'})
+        console.error(err)
+      })
   }
 
   render() {
     const {classes} = this.props
     const {
       players,
+      ajaxState,
       dialogTitle,
       isDialogOpen,
       selectedPlayer,
@@ -167,6 +192,8 @@ class AppContent extends Component {
       >
         <Grid item xs={12} sm={10} md={8} lg={6} className={classes.container}>
           <LeaderBoard
+            ajaxState={ajaxState}
+            isDialogOpen={isDialogOpen}
             players={sortPlayers(players)}
             removePlayer={this.removePlayer}
             addNewPlayer={this.addNewPlayer}
@@ -175,6 +202,7 @@ class AppContent extends Component {
         </Grid>
         <DialogForm
           title={dialogTitle}
+          ajaxState={ajaxState}
           isOpen={isDialogOpen}
           player={selectedPlayer}
           onClose={this.onDialogClose}
