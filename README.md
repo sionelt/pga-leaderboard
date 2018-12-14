@@ -27,15 +27,15 @@ Run linting on `src` dir with ESLint
 
 ### `yarn build`
 
-Bundled and minified app into `build` dir ready for deployment.
+Bundle and minify app into `build` dir ready for deployment.
 
 ### `yarn deploy`
 
-Build and bundled code, and deployed to Firebase Hosting
+Build, bundle, and deploy to Firebase Hosting
 
 ## FUTURE IMPLEMENTATION
 
-- Setup CI/CL to Firebase.
+- Setup CI/CD to Firebase.
 - Implement authentication: client & database.
 - More tests: unit, integrations and E2E.
 - Optimized for PWA features.
