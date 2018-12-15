@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
+import validateFields from './../utils/validateFields'
+import sortPlayers from './../utils/sortPlayers'
 import Grid from '@material-ui/core/Grid'
 import LeaderBoard from './LeaderBoard'
 import DialogForm from './DialogForm'
-import validateFields from './../utils/validateFields'
-import sortPlayers from './../utils/sortPlayers'
 import firebase from './../firebase'
 
 const styles = theme => ({
@@ -98,6 +98,9 @@ class AppContent extends Component {
 
   removePlayer = playerId => async e => {
     e.stopPropagation()
+
+    this.setState({ajaxState: 'FETCHING'})
+
     await firebase
       .database()
       .ref('Players/' + playerId)
@@ -105,8 +108,17 @@ class AppContent extends Component {
       .catch(err => console.error(err))
 
     this.getPlayers()
-      .then(players => this.setState({players}))
-      .catch(err => console.error(err))
+      .then(players => this.setState({players, ajaxState: 'SUCCESS'}))
+      .catch(err => {
+        this.setState({ajaxState: 'FAIL'})
+        console.error(err)
+      })
+  }
+
+  onDialogFieldFocus = name => e => {
+    if (name === 'score') {
+      e.target.select()
+    }
   }
 
   onDialogFieldChange = name => e => {
@@ -207,6 +219,7 @@ class AppContent extends Component {
           player={selectedPlayer}
           onClose={this.onDialogClose}
           fieldErrors={dialogFieldErrors}
+          onFieldFocus={this.onDialogFieldFocus}
           onFieldChange={this.onDialogFieldChange}
         />
       </Grid>
