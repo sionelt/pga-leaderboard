@@ -17,6 +17,7 @@ const DialogForm = props => {
     onClose,
     ajaxState,
     fieldErrors,
+    onFieldFocus,
     onFieldChange,
   } = props
 
@@ -35,6 +36,7 @@ const DialogForm = props => {
               label={LABELS[i]}
               value={player[k]}
               error={k in fieldErrors}
+              onFocus={onFieldFocus(k)}
               onChange={onFieldChange(k)}
               autoFocus={k === 'firstName'}
               type={k === 'score' ? 'number' : 'text'}
