@@ -1,4 +1,4 @@
-# PGA LEADERBOARD
+# PLAYERS LEADERBOARD
 
 ## DEMO: https://pga-leaderboard.firebaseapp.com/
 
