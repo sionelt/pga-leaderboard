@@ -32,10 +32,3 @@ Bundle and minify app into `build` dir ready for deployment.
 ### `yarn deploy`
 
 Build, bundle, and deploy to Firebase Hosting
-
-## FUTURE IMPLEMENTATION
-
-- Setup CI/CD to Firebase.
-- Implement authentication: client & database.
-- More tests: unit, integrations and E2E.
-- Optimized for PWA features.
