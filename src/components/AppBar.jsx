@@ -6,15 +6,15 @@ import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   heading: {
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 })
 
 const TopAppBar = props => (
   <AppBar position="static" color="primary">
     <Toolbar className={props.classes.heading}>
       <Typography variant="h6" color="inherit">
-        PGA Players LeaderBoard
+        Players LeaderBoard
       </Typography>
     </Toolbar>
   </AppBar>
